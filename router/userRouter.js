@@ -14,5 +14,6 @@ const Subcribe = require('../controller/subsribecontroller')
 router.post('/signup', Signup.signup);
 router.post('/login', Login.login);
 router.post('/subscribe',Subcribe.Subscribe)
+router.post('/subscribetoggle',Subcribe.SubscribeToggle)
 
 module.exports = router 
