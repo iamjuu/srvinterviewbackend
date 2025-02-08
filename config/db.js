@@ -1,18 +1,15 @@
- const mongoose = require("mongoose")
- const Dburl = process.env.mongourl
- 
- console.log(Dburl)
- 
- const mongodbconnect =  async ()=>{
-     try{
-         
-const connecting = await mongoose.connect(Dburl)
-console.log("mongodb is connected")
-}catch(err){
+const mongoose = require("mongoose");
 
-    console.log("mongodb not connected")
-console.log(err)
-}
+const mongodbconnect = async () => {
+  try {
+    const Dburl = process.env.MONGOURI || "mongodb://127.0.0.1:27017/notificationsrv";  // Fallback URI
+    await mongoose.connect(Dburl, { useNewUrlParser: true, useUnifiedTopology: true });
+    console.log("MongoDB is connected");
+  } catch (err) {
+    console.log("MongoDB not connected", err);
+  }
+};
 
- }
- module.exports = mongodbconnect
+module.exports = mongodbconnect;
+
+

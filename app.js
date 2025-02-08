@@ -4,6 +4,8 @@ const app = express();
 const path = require('path');
 const dotenv = require('dotenv');
 const cors = require('cors');
+require('dotenv').config();
+
 const port = process.env.PORT || 7000;
 const mongodbconnect = require('./config/db')
 mongodbconnect()
