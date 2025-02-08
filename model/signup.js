@@ -25,10 +25,21 @@ const SignupSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    createdAt: {
+    subscribe: [{
+        productId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'product', 
+          required: true
+        },
+        status: {
+          type: Boolean,
+          default: false
+        }
+      }],
+      createdAt: {
         type: Date,
         default: Date.now
-    }
+      }
 });
 const Signup = mongoose.model('signup', SignupSchema);
 module.exports = Signup;
