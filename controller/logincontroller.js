@@ -3,13 +3,14 @@ const jwt = require('jsonwebtoken');
 const Signup = require('../model/signup');
 
 require('dotenv').config();
-const SECRET_KEY = process.env.secretkey; // Ensure SECRET_KEY is defined in .env
+const SECRET_KEY = process.env.secretkey; 
 
 module.exports = {
+  // ***********login path****************
   login: async (req, res) => {
     try {
       const { email, password } = req.body;
-      console.log(SECRET_KEY); // Logs the SECRET_KEY to verify it's being read
+      console.log(SECRET_KEY);
   
       const user = await Signup.findOne({ email });
       if (!user) {
@@ -27,14 +28,11 @@ module.exports = {
         });
       }
   
-      // Generate JWT token
       const token = jwt.sign(
         { id: user._id, email: user.email }, 
         SECRET_KEY, 
         { expiresIn: '1h' }
       );
-  
-      // Remove sensitive data before sending
       const userData = {
         _id: user._id,
         email: user.email,

@@ -1,7 +1,8 @@
 const product = require('../model/product');
-const Signup = require('../model/signup'); // Add this line to import the Signup model
+const Signup = require('../model/signup'); 
 
 module.exports = {
+  // ********** form data saving path****************
   formPost: async (req, res) => {
     try {
       console.log(req.body);
@@ -10,8 +11,6 @@ module.exports = {
       const { name, price } = req.body;
       const filename = req.file.filename;
       console.log(filename);
-
-      // Create and save the new product
       const newProduct = new product({
         name,
         price,
@@ -20,7 +19,6 @@ module.exports = {
 
       await newProduct.save();
 
-      // Find a user and update their notifications
       const user = await Signup.findOne();
       user.notification.push({
         message: `New product added: ${name}`,

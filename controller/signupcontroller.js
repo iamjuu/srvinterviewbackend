@@ -7,7 +7,7 @@ const signup = async (req, res) => {
     try {
         const { name, email, password, phone } = req.body;
 
-        // Check if user already exists by email
+       
         const existingUser = await Signup.findOne({ email });
         if (existingUser) {
             return res.status(400).json({
@@ -16,7 +16,7 @@ const signup = async (req, res) => {
             });
         }
 
-        // Check if phone number is already registered
+     
         const existingPhone = await Signup.findOne({ phone });
         if (existingPhone) {
             return res.status(400).json({

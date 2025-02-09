@@ -40,7 +40,7 @@ module.exports = {
                 user.subscribe.splice(index, 1);
                 message = `User ${user.name} unsubscribed from product ${productId}`;
             }
-            // Save changes
+      
             await user.save();
 
             res.status(200).json({ message });
@@ -55,13 +55,12 @@ module.exports = {
 
       SubscribeToggle: async (req, res) => {
         try {
-            // Check for authorization token
+     
             const token = req.headers['authorization']?.split(' ')[1];
             if (!token) {
                 return res.status(401).json({ message: 'No token, authorization denied.' });
             }
     
-            // Verify token and get userId
             const decoded = jwt.verify(token, SECRET_KEY);
             const userId = decoded.id;
     

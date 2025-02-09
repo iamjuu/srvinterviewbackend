@@ -7,40 +7,39 @@ module.exports = {
   productget: async (req, res) => {
     try {
         const token = req.headers['authorization']?.split(' ')[1];
+console.log(token,'dgdf');
 
         if (!token) {
             return res.status(401).json({ message: 'No token provided, unauthorized.' });
         }
 
-        // Use promisify to handle jwt.verify with async/await
+      
         jwt.verify(token, SECRET_KEY, async (err, decoded) => {
             if (err) {
                 return res.status(401).json({ message: 'Invalid or expired token.' });
             }
 
             try {
-                const userId = decoded.id;  // Now decoded is available in this scope
+                const userId = decoded.id;  
                 
-                // Fetch all products
+              
                 const products = await product.find();
 
-                // Fetch the user and populate the subscribe array with product details
                 const user = await Signup.findById(userId).populate({
-                    path: 'subscribe.productId', // Populate the productId field in subscribe
-                    model: 'product',            // Reference to the 'product' model
+                    path: 'subscribe.productId', 
+                    model: 'product',            
                 });
 
                 if (!user) {
                     return res.status(404).json({ message: 'User not found.' });
                 }
 
-                // Get the subscribed products for the user
+             
                 const subscribedProducts = user.subscribe.map(sub => sub.productId);
 
-                // Send both the full list of products and the subscribed products
                 res.status(200).json({
-                    products,             // All products
-                    subscribedProducts    // Products user is subscribed to
+                    products,             
+                    subscribedProducts    
                 });
 
             } catch (error) {
@@ -61,24 +60,23 @@ module.exports = {
     try {
       const { id } = req.params;
 
-      // Find the product by its ID
+    
       const productToDelete = await product.findById(id);
 
       if (!productToDelete) {
         return res.status(404).json({ message: "Product not found" });
       }
 
-      // Delete the product after finding it
+    
       await product.findByIdAndDelete(id);
 
-      // Add notification for the user
+
       const user = await Signup.findOne();
       user.notification.push({
         message: `New product added: ${name}`,
         product:productToDelete._id
       });
 
-      // Save the user data after updating the notification
       await user.save();
 
       res.json({ message: "Product deleted successfully" });
@@ -114,7 +112,7 @@ module.exports = {
 
       console.log(updateData, "Updated data");
 
-      // Update the product
+   
       const updatedProduct = await product.findByIdAndUpdate(id, updateData, {
         new: true,
       });

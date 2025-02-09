@@ -5,6 +5,7 @@ const SECRET_KEY = process.env.secretkey; // Replace with a secure key
 const Signup = require('../model/signup'); // Adjust the path to your model
 
 module.exports = {
+    // ***********notification path ***************
     Notification: async (req, res) => {
         console.log('Fetching notifications and subscriptions');
 
