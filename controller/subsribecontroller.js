@@ -19,22 +19,17 @@ module.exports = {
         if (err) {
             return res.status(401).json({ message: 'Invalid or expired token.' });
         }
-
         const userId = decoded.id;
         try {
             const user = await getUserById(userId);
             if (!user) {
                 return res.status(404).json({ message: 'User not found.' });
             }
-
-            // Ensure user.subscribe exists
             if (!user.subscribe) {
                 user.subscribe = [];
             }
-
             // Convert `productId` to a string and check properly
             const index = user.subscribe.findIndex(sub => sub.productId.toString() === productId.toString());
-
             let message;
             if (index === -1) {
                 // If not present, add it
@@ -45,7 +40,6 @@ module.exports = {
                 user.subscribe.splice(index, 1);
                 message = `User ${user.name} unsubscribed from product ${productId}`;
             }
-
             // Save changes
             await user.save();
 

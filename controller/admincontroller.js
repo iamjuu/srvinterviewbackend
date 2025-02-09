@@ -1,26 +1,39 @@
-module.exports={
-formPost: async (req, res) => {
-  console.log(req.body);
-  console.log(req.file);
-  const { name, price } = req.body;
-  const filename = req.file.filename;
-  console.log(filename);
+const product = require('../model/product');
+const Signup = require('../model/signup'); // Add this line to import the Signup model
 
-  // Create and save the new product
-  const newProduct = new product({
-    name,
-    price,
-    imglink: filename,
-  });
-  
-  await newProduct.save();
-  const user = await Signup.findOne(); // Find a user, assuming we are notifying the first one, modify based on your needs
-  user.notification.push({
-    message: `New product added: ${name}`,
-  });
-  
-  await user.save(); // Save the updated user
+module.exports = {
+  formPost: async (req, res) => {
+    try {
+      console.log(req.body);
+      console.log(req.file);
+      
+      const { name, price } = req.body;
+      const filename = req.file.filename;
+      console.log(filename);
 
-  res.status(200).json({ message: "Product added and notification sent!" });
-}
-}
+      // Create and save the new product
+      const newProduct = new product({
+        name,
+        price,
+        imglink: filename,
+      });
+
+      await newProduct.save();
+
+      // Find a user and update their notifications
+      const user = await Signup.findOne();
+      user.notification.push({
+        message: `New product added: ${name}`,
+        product:newProduct._id
+      });
+console.log(user);
+
+      await user.save();
+
+      res.status(200).json({ message: "Product added and notification sent!" });
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ message: "Error adding product", error: error.message });
+    }
+  }
+};

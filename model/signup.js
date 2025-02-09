@@ -39,7 +39,11 @@ const SignupSchema = new mongoose.Schema({
         notification:[{
           message:{
             type:String,
-          }, createdAt: {
+          },
+          product:{
+            type: mongoose.Schema.Types.ObjectId,
+          },
+          createdAt: {
             type: Date,
             default: Date.now
           }

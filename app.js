@@ -3,9 +3,11 @@ const path =require("path")
 const app = express();
 const dotenv = require('dotenv');
 const cors = require('cors');
+require('dotenv').config();
 const AdminRouter = require('./router/adminRouter');
 const UsrRouter = require('./router/userRouter');
-require('dotenv').config();
+const NotificationRouter = require('./router/notification')
+
 
 const port = process.env.PORT || 7000;
 console.log(process.env.PORT)
@@ -22,6 +24,7 @@ app.use(express.json());
 
 app.use('/', AdminRouter);
 app.use('/', UsrRouter);
+app.use('/',NotificationRouter)
 
 app.listen(port, () => {
   console.log(`Server started and running on port ${port}`);

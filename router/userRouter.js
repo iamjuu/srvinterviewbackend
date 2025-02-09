@@ -17,6 +17,6 @@ router.post('/login', Login.login);
 router.post('/subscribe',Subcribe.Subscribe)
 router.post('/subscribetoggle',Subcribe.SubscribeToggle)
 router.get('/:userId/subscriptions', Product.updatedproduct);
-router.get('/countproduct',Product.Countproduct)
+router.get('/countproduct',Product.Countnotification)
 
 module.exports = router 

@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Signup = require('../model/signup'); // Ensure correct path
-const SECRET_KEY = 'your_secret_key'; // Replace with a secure key
+const SECRET_KEY = process.env.secretkey; // Replace with a secure key
 
 const signup = async (req, res) => {
     try {
