@@ -3,6 +3,7 @@ const router = express.Router();
 const Signup = require('../controller/signupcontroller');
 const Login = require('../controller/logincontroller');
 const Subcribe = require('../controller/subsribecontroller')
+const  Product = require('../controller/productcontroller');
   const handleSubscribe = (productId) => {
     setSubscriptions(prev => ({
       ...prev,
@@ -15,5 +16,7 @@ router.post('/signup', Signup.signup);
 router.post('/login', Login.login);
 router.post('/subscribe',Subcribe.Subscribe)
 router.post('/subscribetoggle',Subcribe.SubscribeToggle)
+router.get('/:userId/subscriptions', Product.updatedproduct);
+router.get('/countproduct',Product.Countproduct)
 
 module.exports = router 

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const SignupSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -31,15 +30,25 @@ const SignupSchema = new mongoose.Schema({
           ref: 'product', 
           required: true
         },
-        status: {
+       
+      }], status: {
           type: Boolean,
           default: false
-        }
-      }],
+        },
+
+        notification:[{
+          message:{
+            type:String,
+          }, createdAt: {
+            type: Date,
+            default: Date.now
+          }
+
+        }],
       createdAt: {
         type: Date,
         default: Date.now
       }
 });
-const Signup = mongoose.model('signup', SignupSchema);
-module.exports = Signup;
+const Signup = mongoose.model('signup', SignupSchema)
+module.exports = Signup; 

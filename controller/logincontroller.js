@@ -10,29 +10,51 @@ module.exports = {
     try {
       const { email, password } = req.body;
       console.log(SECRET_KEY); // Logs the SECRET_KEY to verify it's being read
-
+  
       const user = await Signup.findOne({ email });
       if (!user) {
-        return res.status(400).json({ status: false, message: 'User not found' });
+        return res.status(400).json({ 
+          status: false, 
+          message: 'User not found' 
+        });
       }
-
+  
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        return res.status(400).json({ status: false, message: 'Invalid password' });
+        return res.status(400).json({ 
+          status: false, 
+          message: 'Invalid password' 
+        });
       }
-
+  
       // Generate JWT token
-      const token = jwt.sign({ id: user._id, email: user.email }, SECRET_KEY, { expiresIn: '1h' });
-
+      const token = jwt.sign(
+        { id: user._id, email: user.email }, 
+        SECRET_KEY, 
+        { expiresIn: '1h' }
+      );
+  
+      // Remove sensitive data before sending
+      const userData = {
+        _id: user._id,
+        email: user.email,
+        status:user.status 
+       
+      };
+  
       res.status(200).json({
         status: true,
         message: 'Login successful',
-        token, // Send token to frontend
-        user: { id: user._id, name: user.name, email: user.email },
+        token,
+        user: userData
       });
+  
     } catch (error) {
       console.error('Login error:', error);
-      res.status(500).json({ status: false, message: 'Internal server error' });
+      res.status(500).json({ 
+        status: false, 
+        message: 'Internal server error' 
+      });
     }
   }
 };
