@@ -12,7 +12,7 @@ module.exports = {
         try {
             // Get token from Authorization header
             const token = req.headers['authorization']?.split(' ')[1];
-            console.log(token );
+            // console.log(token );
             
             if (!token) {
                 return res.status(401).json({
@@ -37,6 +37,7 @@ console.log(userId,'userdidd');
                     message: 'User not found'
                 });
             }
+console.log(userData);
 
             // Return both subscription and notification details
             return res.status(200).json({
