@@ -59,6 +59,7 @@ console.log(token,'dgdf');
   productDelete: async (req, res) => {
     try {
       const { id } = req.params;
+console.log(id);
 
     
       const productToDelete = await product.findById(id);
@@ -73,7 +74,7 @@ console.log(token,'dgdf');
 
       const user = await Signup.findOne();
       user.notification.push({
-        message: `New product added: ${name}`,
+        message: `New product added: ${productToDelete.name}`,
         product:productToDelete._id
       });
 
